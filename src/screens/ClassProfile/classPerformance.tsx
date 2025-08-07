@@ -37,7 +37,6 @@ export default function ClassPerformance() {
   }, [fetchClassProfile]);
 
 
-  console.log(classProfile)
   const filteredStrands = useMemo(() => {
     if (!classProfile) return [];
     return classProfile
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingTop: Platform.OS === "ios" ? 44 : 24,
+    paddingTop: Platform.OS === "ios" ? 44 : 54,
     backgroundColor: baseColors.info,
   },
   center: {

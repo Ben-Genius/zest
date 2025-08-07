@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -14,10 +14,10 @@ import { AuthContext } from "@/src/navigators";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function Settings() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, isDark } = useTheme();
   const { logout } = useContext(AuthContext);
   const [autoDownload, setAutoDownload] = useState(false);
-  const fadeAnim = new Animated.Value(0);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -25,7 +25,7 @@ export default function Settings() {
       duration: 500,
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [fadeAnim]);
 
   const handleLogout = () => {
     Alert.alert("Confirm Logout", "Are you sure you want to log out?", [
@@ -43,6 +43,22 @@ export default function Settings() {
     ]);
   };
 
+  const handleThemeToggle = () => {
+    try {
+      toggleTheme();
+    } catch (error) {
+      console.warn("Theme toggle error:", error);
+    }
+  };
+
+  const handleAutoDownloadToggle = (value: boolean) => {
+    try {
+      setAutoDownload(value);
+    } catch (error) {
+      console.warn("Auto download toggle error:", error);
+    }
+  };
+
   const settingsSections = [
     {
       title: "Account",
@@ -54,7 +70,6 @@ export default function Settings() {
           onPress: () => console.log("Profile pressed"),
           showArrow: true,
         },
-
         {
           icon: "shield-checkmark-outline",
           title: "Privacy Settings",
@@ -73,9 +88,9 @@ export default function Settings() {
           subtitle: "Switch between light and dark themes",
           component: (
             <Switch
-              value={theme.isDark}
-              onValueChange={toggleTheme}
-              thumbColor={theme.isDark ? theme.colors.primary : "#f4f3f4"}
+              value={isDark}
+              onValueChange={handleThemeToggle}
+              thumbColor={isDark ? theme.colors.primary : "#f4f3f4"}
               trackColor={{
                 false: "#767577",
                 true: theme.colors.primary + "40",
@@ -83,7 +98,6 @@ export default function Settings() {
             />
           ),
         },
-
         {
           icon: "download-outline",
           title: "Auto Download Reports",
@@ -91,7 +105,7 @@ export default function Settings() {
           component: (
             <Switch
               value={autoDownload}
-              onValueChange={setAutoDownload}
+              onValueChange={handleAutoDownloadToggle}
               thumbColor={autoDownload ? theme.colors.primary : "#f4f3f4"}
               trackColor={{
                 false: "#767577",
@@ -152,6 +166,15 @@ export default function Settings() {
       </View>
     </TouchableOpacity>
   );
+
+  // Add a safety check for theme
+  if (!theme || !theme.colors) {
+    return (
+      <View style={[styles.container, { backgroundColor: "#ffffff" }]}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView
