@@ -16,12 +16,16 @@ export default function ApplicationNavigator() {
       <Stack.Screen
         name="Home"
         component={HomeTabsNavigator}
-        options={{ headerShown: false,  }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="StudentDetail"
         component={StudentDetail}
-        options={{ title: "Student Details", headerBackTitle: '' }}
+        options={{
+          title: "Student Details",
+          headerTitleAlign: "center",
+          headerTitleStyle: {marginRight:50}
+        }}
       />
     </Stack.Navigator>
   );

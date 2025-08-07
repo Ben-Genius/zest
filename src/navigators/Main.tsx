@@ -19,12 +19,12 @@ const HomeTabsNavigator: React.FC = () => {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: baseColors.primary, // iOS blue for active tab
-        tabBarInactiveTintColor: "#8E8E93", // iOS gray for inactive tab
+        tabBarInactiveTintColor: baseColors.gray500,
         tabBarStyle: {
-          height: Platform.OS === "ios" ? 50 : 60, // Adjust for iOS safe area
+          height: Platform.OS === "ios" ? 50 : 80, // Adjust for iOS safe area
         },
         tabBarLabelStyle: {
-          ...typography.caption,
+          ...typography.caption
         },
       }}
     >
