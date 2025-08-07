@@ -3,7 +3,7 @@
 
 A comprehensive cross-platform mobile application for tracking early-grade student performance across various learning strands. Built with modern UI/UX principles, dark/light theming, and robust state management using Zustand.
 
-![ZEST App Preview](https://github.com/Ben-Genius/zest/blob/main/preview.png)
+![ZEST App Preview](/assets/images/logo.png)
 
 ---
 
@@ -45,7 +45,7 @@ A comprehensive cross-platform mobile application for tracking early-grade stude
 
 | Light Mode | Dark Mode | Strand Progress |
 |------------|-----------|-----------------|
-| ![Light] () | ![Dark](./assets/screenshots/darkmode.png) | ![Student](./assets/screenshots/student.png) |
+| ![Light] (/assets/screenshot/Simulator Screenshot - iPhone 15 Pro - 2025-08-07 at 12.31.42) | ![Dark](./assets/screenshots/darkmode.png) | ![Student](./assets/screenshots/student.png) |
 
 ---
 
