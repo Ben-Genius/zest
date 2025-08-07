@@ -45,8 +45,9 @@ A comprehensive cross-platform mobile application for tracking early-grade stude
 
 | Light Mode | Dark Mode | Strand Progress |
 |------------|-----------|-----------------|
-| ![Light](/assets/screenshot/l1.png) | ![Dark](./assets/screenshot/d1.png) | ![Student](./assets/screenshot/d4.png) |
+| ![Light](/assets/screenshot/l1.png) | ![Dark](./assets/screenshot/d1.png) | ![Student](./assets/screenshot/s1.png) |
 | ![Light](/assets/screenshot/logi.png) | ![Dark](./assets/screenshot/d3.png) | ![Student](./assets/screenshot/d4.png) |
+| ![Light](/assets/screenshot/l3.png) | ![Dark](./assets/screenshot/d4.png) | ![Student](./assets/screenshot/s2.png) |
 
 
 ---
