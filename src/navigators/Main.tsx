@@ -1,20 +1,21 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import ClassPerformance from "../screens/ClassProfile/classPerformance";
-import Settings from "../screens/Settings/settings";
-import { typography } from "../theme/typography";
 import { Platform } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { HomeTabParamList } from "../types/navigation";
+import { typography } from "../theme/typography";
 import { baseColors } from "../theme/colors";
-import Students from "../screens/Students/students";
-import { HomeTabParamList } from ".";
-import strings from "../constant/strings"; // ✅ Import strings
 import { useTheme } from "../theme/ThemeProvider";
+import strings from "../constant/strings";
+import ClassPerformance from "../screens/ClassProfile/classPerformance";
+import Students from "../screens/Students/students";
+import Settings from "../screens/Settings/settings";
 
 const MainTabs = createBottomTabNavigator<HomeTabParamList>();
 
 const HomeTabsNavigator: React.FC = () => {
-  const {theme,isDark} = useTheme()
+  const { theme, isDark } = useTheme();
+
   return (
     <MainTabs.Navigator
       screenOptions={{
@@ -23,19 +24,20 @@ const HomeTabsNavigator: React.FC = () => {
         tabBarInactiveTintColor: baseColors.gray500,
         tabBarStyle: {
           height: Platform.OS === "ios" ? 50 : 80,
-          backgroundColor:isDark ?  theme.colors.surface : theme.colors.background
+          backgroundColor: isDark
+            ? theme.colors.surface
+            : theme.colors.background,
         },
         tabBarLabelStyle: {
           ...typography.caption,
         },
-       
       }}
     >
       <MainTabs.Screen
-        name="Home"
+        name="ClassPerformance"
         component={ClassPerformance}
         options={{
-          tabBarLabel: strings.navigation.tabs.class, // ✅ Use string
+          tabBarLabel: strings.navigation.tabs.class,
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "school" : "school-outline"}
@@ -49,7 +51,7 @@ const HomeTabsNavigator: React.FC = () => {
         name="Students"
         component={Students}
         options={{
-          tabBarLabel: strings.navigation.tabs.students, // ✅ Use string
+          tabBarLabel: strings.navigation.tabs.students,
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "people" : "people-outline"}
@@ -63,7 +65,7 @@ const HomeTabsNavigator: React.FC = () => {
         name="Settings"
         component={Settings}
         options={{
-          tabBarLabel: strings.navigation.tabs.settings, // ✅ Use string
+          tabBarLabel: strings.navigation.tabs.settings,
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "settings" : "settings-outline"}

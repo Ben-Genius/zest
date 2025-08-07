@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -9,14 +9,14 @@ import {
   Alert,
   Animated,
 } from "react-native";
-import { useTheme } from "../../theme/ThemeProvider";
-import { AuthContext } from "@/src/navigators";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../../theme/ThemeProvider";
+import { useAuth } from "@/src/contexts/AuthContext"; // Updated import
 import strings from "@/src/constant/strings";
 
 export default function Settings() {
   const { theme, toggleTheme, isDark } = useTheme();
-  const { logout } = useContext(AuthContext);
+  const { logout } = useAuth(); // Use the hook instead of useContext
   const [autoDownload, setAutoDownload] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -29,19 +29,18 @@ export default function Settings() {
   }, [fadeAnim]);
 
   const handleLogout = () => {
- Alert.alert(
-   strings.settings.logout.confirmTitle,
-   strings.settings.logout.confirmMessage,
-   [
-     { text: "Cancel", style: "cancel" },
-     {
-       text: strings.settings.logout.button,
-       style: "destructive",
-       onPress: logout,
-     },
-   ]
- );
-
+    Alert.alert(
+      strings.settings.logout.confirmTitle,
+      strings.settings.logout.confirmMessage,
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: strings.settings.logout.button,
+          style: "destructive",
+          onPress: logout,
+        },
+      ]
+    );
   };
 
   const handleThemeToggle = () => {
@@ -178,7 +177,7 @@ export default function Settings() {
   }
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
       {/* Header */}
       <View
         style={[styles.header, { backgroundColor: theme.colors.background }]}
@@ -192,6 +191,7 @@ export default function Settings() {
           {strings.settings.headerSubtitle}
         </Text>
       </View>
+
       <ScrollView
         style={[styles.container, { backgroundColor: theme.colors.background }]}
         showsVerticalScrollIndicator={false}
@@ -284,7 +284,7 @@ export default function Settings() {
                 { color: theme.colors.textSecondary },
               ]}
             >
-              {strings.settings.appInfo.tagline}s{" "}
+              {strings.settings.appInfo.tagline}
             </Text>
           </View>
 
@@ -313,7 +313,7 @@ export default function Settings() {
           <View style={styles.bottomSpacing} />
         </Animated.View>
       </ScrollView>
-    </>
+    </View>
   );
 }
 

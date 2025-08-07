@@ -1,20 +1,16 @@
 import React from "react";
-
-import StudentDetail from "../screens/StudentDetail.tsx/studentDetail";
 import { createStackNavigator } from "@react-navigation/stack";
+import { RootStackParamList } from "../types/navigation";
 import HomeTabsNavigator from "./Main";
-import { RootStackParamList } from ".";
+import StudentDetail from "../screens/StudentDetail.tsx/studentDetail";
 
-
-// Create navigators
 const Stack = createStackNavigator<RootStackParamList>();
 
-// Root Navigator (handles auth and main app flow)
 export default function ApplicationNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
+        name="MainTabs"
         component={HomeTabsNavigator}
         options={{ headerShown: false }}
       />
@@ -24,8 +20,7 @@ export default function ApplicationNavigator() {
         options={{
           title: "Student Details",
           headerTitleAlign: "center",
-          headerTitleStyle: { marginRight: 50 }
-          
+          headerTitleStyle: { marginRight: 50 },
         }}
       />
     </Stack.Navigator>

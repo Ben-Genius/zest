@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -13,33 +13,34 @@ import {
   Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import strings from "@/src/constant/strings";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import strings from "@/src/constant/strings";
 import ParallaxBackground from "@/src/components/login/ParallaxBackground";
 import { IMAGES } from "@/assets";
 import { globalStyles } from "@/src/theme/globalStyles";
-import { StatusBar } from "expo-status-bar";
 import { baseColors } from "@/src/theme/colors";
 import { typography } from "@/src/theme/typography";
 import { spacing } from "@/src/theme/spacing";
-import { AuthContext } from "@/src/navigators";
+import { useAuth } from "@/src/contexts/AuthContext"; // Updated import
 
 export default function SignIn() {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
 
-  const { login } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { login } = useAuth(); // Use the hook instead of useContext
 
   const handleLogin = () => {
     if (email && password) {
-      login(); // sets isLoggedIn = true
+      login();
     } else {
       Alert.alert("Error", "Please enter both email and password");
     }
   };
+
   useEffect(() => {
     Animated.parallel([
       Animated.timing(fadeAnim, {
@@ -176,8 +177,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-
-  // UI styles
   header: {
     marginBottom: 30,
   },
@@ -187,11 +186,9 @@ const styles = StyleSheet.create({
     padding: 24,
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.2)",
-    backdropFilter: "blur(10px)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    
   },
   glassCard: {
     backgroundColor: "rgba(255,255,255,0.1)",
@@ -199,7 +196,6 @@ const styles = StyleSheet.create({
     padding: 24,
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.2)",
-    backdropFilter: "blur(10px)",
   },
   title: {
     fontSize: 28,
@@ -245,7 +241,6 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 12,
     marginTop: 8,
- 
   },
   buttonGradient: {
     padding: 18,

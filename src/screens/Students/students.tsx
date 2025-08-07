@@ -15,10 +15,10 @@ import { useTheme } from "../../theme/ThemeProvider";
 import { StatusBar } from "expo-status-bar";
 import { CompetenceLevel, StrandStudent } from "@/src/types";
 import { StackNavigationProp } from "@react-navigation/stack";
-import type { RootStackParamList } from "@/src/navigators";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { baseColors } from "@/src/theme/colors";
+import { RootStackParamList } from "@/src/types/navigation";
 
 type NavigationProp = StackNavigationProp<RootStackParamList>;
 

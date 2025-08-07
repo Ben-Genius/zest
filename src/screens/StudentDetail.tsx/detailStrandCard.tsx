@@ -279,11 +279,7 @@ const ModernStrandCards: React.FC = () => {
                   {strand.label}
                 </Text>
                 <View style={styles.competenceContainer}>
-                  <View
-                    style={[
-                      { backgroundColor: competenceColor },
-                    ]}
-                  />
+                  <View style={[{ backgroundColor: competenceColor }]} />
                   <Ionicons
                     name={strand.icon}
                     size={24}
@@ -521,7 +517,7 @@ const styles = StyleSheet.create({
   headerText: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent:'space-between',
+    justifyContent: "space-between",
     flex: 1,
   },
   cardTitle: {

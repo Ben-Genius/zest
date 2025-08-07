@@ -1,14 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { AuthStackParamList } from "../types/navigation";
 import SignIn from "../screens/Login/signIn";
 
-export type RootStackParamList = {
-  SignIn: undefined;
-};
+const Stack = createStackNavigator<AuthStackParamList>();
 
-const Stack = createStackNavigator<RootStackParamList>();
-
-// Root Navigator (handles auth and main app flow)
 export default function AuthNavigator() {
   return (
     <Stack.Navigator>
