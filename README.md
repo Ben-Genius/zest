@@ -45,7 +45,9 @@ A comprehensive cross-platform mobile application for tracking early-grade stude
 
 | Light Mode | Dark Mode | Strand Progress |
 |------------|-----------|-----------------|
-| ![Light] (/assets/screenshot/Simulator Screenshot - iPhone 15 Pro - 2025-08-07 at 12.31.42) | ![Dark](./assets/screenshots/darkmode.png) | ![Student](./assets/screenshots/student.png) |
+| ![Light](/assets/screenshot/l1.png) | ![Dark](./assets/screenshot/d1.png) | ![Student](./assets/screenshot/d4.png) |
+| ![Light](/assets/screenshot/logi.png) | ![Dark](./assets/screenshot/d3.png) | ![Student](./assets/screenshot/d4.png) |
+
 
 ---
 
