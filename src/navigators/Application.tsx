@@ -24,7 +24,8 @@ export default function ApplicationNavigator() {
         options={{
           title: "Student Details",
           headerTitleAlign: "center",
-          headerTitleStyle: {marginRight:50}
+          headerTitleStyle: { marginRight: 50 }
+          
         }}
       />
     </Stack.Navigator>

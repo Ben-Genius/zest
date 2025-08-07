@@ -11,7 +11,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Strand } from "@/src/types";
 
-// Types
 interface StrandStudent {
   studentId: string;
   name: string;
@@ -44,7 +43,6 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
   onStudentPress,
   onBulkAction,
 }) => {
-  // State for enhanced functionality
   const [selectedStrands, setSelectedStrands] = useState<Set<string>>(
     new Set()
   );
@@ -54,7 +52,6 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
   );
   const [viewMode, setViewMode] = useState<"compact" | "detailed">("detailed");
 
-  // Memoized calculations for performance
   const strandStats = useMemo(() => {
     const total = filteredStrands.length;
     const completed = filteredStrands.filter(
@@ -64,24 +61,17 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
       (s) => s.workCovered > 0 && s.workCovered < 100
     ).length;
     const notStarted = total - completed - inProgress;
-
     return { total, completed, inProgress, notStarted };
   }, [filteredStrands]);
 
-  // Selection handlers
   const toggleStrandSelection = useCallback(
     (strandId: string) => {
       const newSelection = new Set(selectedStrands);
-      if (newSelection.has(strandId)) {
-        newSelection.delete(strandId);
-      } else {
-        newSelection.add(strandId);
-      }
+      newSelection.has(strandId)
+        ? newSelection.delete(strandId)
+        : newSelection.add(strandId);
       setSelectedStrands(newSelection);
-
-      if (newSelection.size === 0) {
-        setIsSelectionMode(false);
-      }
+      if (newSelection.size === 0) setIsSelectionMode(false);
     },
     [selectedStrands]
   );
@@ -94,28 +84,25 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
       setSelectedStrands(new Set(filteredStrands.map((s) => s.strandId)));
       setIsSelectionMode(true);
     }
-  }, [filteredStrands, selectedStrands.size]);
+  }, [filteredStrands, selectedStrands]);
 
   const toggleExpandStrand = useCallback(
     (strandId: string) => {
       const newExpanded = new Set(expandedStrands);
-      if (newExpanded.has(strandId)) {
-        newExpanded.delete(strandId);
-      } else {
-        newExpanded.add(strandId);
-      }
+      newExpanded.has(strandId)
+        ? newExpanded.delete(strandId)
+        : newExpanded.add(strandId);
       setExpandedStrands(newExpanded);
     },
     [expandedStrands]
   );
 
-  // Utility functions
   const getCompetenceColor = (competence: string) => {
     const colorMap: { [key: string]: string } = {
-      BE: "#FF3B30", // Below Expectation
-      AE: "#FFCC00", // Approaching Expectation
-      ME: "#34C759", // Meeting Expectation
-      EE: "#007AFF", // Exceeding Expectation
+      BE: "#FF3B30",
+      AE: "#FFCC00",
+      ME: "#34C759",
+      EE: "#007AFF",
     };
     return colorMap[competence] || theme.colors.primary;
   };
@@ -127,14 +114,12 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
       "needs-improvement": "#FF9800",
       "at-risk": "#FF3B30",
     };
-    return colorMap[performance || "good"] || theme.colors.textSecondary;
+    return colorMap[performance || "good"];
   };
 
-  // Render functions
-  const renderProgressBar = (workCovered: number, totalWork?: number) => {
-    const progress = totalWork ? (workCovered / totalWork) * 100 : workCovered;
+  const renderProgressBar = (workCovered: number) => {
     const progressColor =
-      progress < 30 ? "#FF3B30" : progress < 70 ? "#FF9800" : "#34C759";
+      workCovered < 30 ? "#FF3B30" : workCovered < 70 ? "#FF9800" : "#34C759";
 
     return (
       <View style={styles.progressContainer}>
@@ -142,14 +127,17 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
           <View
             style={[
               styles.progressFill,
-              { width: `${progress}%`, backgroundColor: progressColor },
+              {
+                width: `${workCovered}%`,
+                backgroundColor: progressColor,
+              },
             ]}
           />
         </View>
         <Text
           style={[styles.progressText, { color: theme.colors.textSecondary }]}
         >
-          {progress.toFixed(0)}%
+          {workCovered.toFixed(0)}%
         </Text>
       </View>
     );
@@ -173,16 +161,13 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
           marginBottom: isExpanded ? 8 : 0,
         },
       ]}
-      onPress={() => {
-        if (onStudentPress) {
-          onStudentPress(student);
-        } else {
-          navigation.navigate("StudentDetail", {
-            studentId: student.studentId,
-          });
-        }
-      }}
-      activeOpacity={0.7}
+      onPress={() =>
+        onStudentPress
+          ? onStudentPress(student)
+          : navigation.navigate("StudentDetail", {
+              studentId: student.studentId,
+            })
+      }
     >
       <View
         style={[
@@ -195,7 +180,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
       <View style={styles.studentInfo}>
         <Text
           style={[styles.studentName, { color: theme.colors.text }]}
-          numberOfLines={isExpanded ? 2 : 1}
+          numberOfLines={2}
         >
           {student.name}
         </Text>
@@ -246,12 +231,12 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
           ]}
           onPress={() => {
             Alert.alert(
-              "Archive Strands",
-              `Archive ${selectedStrands.size} selected strands?`,
+              strings.home.archiveTitle,
+              strings.home.archiveMessage(selectedStrands.size),
               [
                 { text: "Cancel", style: "cancel" },
                 {
-                  text: "Archive",
+                  text: strings.home.archive,
                   onPress: () => {
                     onBulkAction?.(Array.from(selectedStrands), "archive");
                     setSelectedStrands(new Set());
@@ -263,7 +248,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
           }}
         >
           <Ionicons name="archive" size={16} color="white" />
-          <Text style={styles.bulkActionText}>Archive</Text>
+          <Text style={styles.bulkActionText}>{strings.home.archive}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -277,7 +262,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
           }}
         >
           <Ionicons name="download" size={16} color="white" />
-          <Text style={styles.bulkActionText}>Export</Text>
+          <Text style={styles.bulkActionText}>{strings.home.export}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -298,7 +283,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
           <Text
             style={[styles.statLabel, { color: theme.colors.textSecondary }]}
           >
-            Total
+            {strings.home.total}
           </Text>
         </View>
         <View style={styles.statItem}>
@@ -308,7 +293,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
           <Text
             style={[styles.statLabel, { color: theme.colors.textSecondary }]}
           >
-            Completed
+            {strings.home.completed}
           </Text>
         </View>
         <View style={styles.statItem}>
@@ -318,7 +303,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
           <Text
             style={[styles.statLabel, { color: theme.colors.textSecondary }]}
           >
-            In Progress
+            {strings.home.inProgress}
           </Text>
         </View>
         <View style={styles.statItem}>
@@ -328,7 +313,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
           <Text
             style={[styles.statLabel, { color: theme.colors.textSecondary }]}
           >
-            Not Started
+            {strings.home.notStarted}
           </Text>
         </View>
       </View>
@@ -350,7 +335,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
             color={theme.colors.text}
           />
           <Text style={[styles.actionButtonText, { color: theme.colors.text }]}>
-            Select All
+            {strings.home.selectAll}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -368,7 +353,9 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
             color={theme.colors.text}
           />
           <Text style={[styles.actionButtonText, { color: theme.colors.text }]}>
-            {viewMode === "compact" ? "Detailed" : "Compact"}
+            {viewMode === "compact"
+              ? strings.home.detailed
+              : strings.home.compact}
           </Text>
         </TouchableOpacity>
       </View>
@@ -402,11 +389,8 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
         ]}
         activeOpacity={0.7}
         onPress={() => {
-          if (isSelectionMode) {
-            toggleStrandSelection(item.strandId);
-          } else if (onStrandPress) {
-            onStrandPress(item);
-          }
+          if (isSelectionMode) toggleStrandSelection(item.strandId);
+          else if (onStrandPress) onStrandPress(item);
         }}
         onLongPress={() => {
           setIsSelectionMode(true);
@@ -426,18 +410,16 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
         )}
         <View style={styles.strandHeader}>
           <View style={styles.strandTitleContainer}>
-            <View style={styles.titleRow}>
-              <Text
-                style={[
-                  styles.strandTitle,
-                  viewMode === "compact" && styles.strandTitleCompact,
-                  { color: theme.colors.text },
-                ]}
-                numberOfLines={viewMode === "compact" ? 1 : 2}
-              >
-                {item.strand}
-              </Text>
-            </View>
+            <Text
+              style={[
+                styles.strandTitle,
+                viewMode === "compact" && styles.strandTitleCompact,
+                { color: theme.colors.text },
+              ]}
+              numberOfLines={viewMode === "compact" ? 1 : 2}
+            >
+              {item.strand}
+            </Text>
             <View style={styles.strandMeta}>
               <Ionicons
                 name="people"
@@ -450,7 +432,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
                   { color: theme.colors.textSecondary },
                 ]}
               >
-                {item.students.length} students
+                {item.students.length} {strings.home.student}
               </Text>
             </View>
           </View>
@@ -465,6 +447,7 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
             />
           </TouchableOpacity>
         </View>
+
         {(viewMode === "detailed" || isExpanded) && (
           <View style={styles.progressSection}>
             <Text
@@ -473,22 +456,21 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
                 { color: theme.colors.textSecondary },
               ]}
             >
-              Work Covered
+              {strings.home.workCovered}
             </Text>
             {renderProgressBar(item.workCovered)}
           </View>
         )}
+
         <View style={styles.studentsPreview}>
-          <View style={styles.studentsPreviewHeader}>
-            <Text
-              style={[
-                styles.studentsPreviewLabel,
-                { color: theme.colors.textSecondary },
-              ]}
-            >
-              Students
-            </Text>
-          </View>
+          <Text
+            style={[
+              styles.studentsPreviewLabel,
+              { color: theme.colors.textSecondary },
+            ]}
+          >
+            {strings.home.studentsLabel}
+          </Text>
           <View
             style={[
               styles.studentChipsContainer,
@@ -549,20 +531,11 @@ const ScalableStrandList: React.FC<StrandListProps> = ({
             </Text>
           </View>
         }
-        removeClippedSubviews={true}
-        maxToRenderPerBatch={10}
-        updateCellsBatchingPeriod={50}
-        initialNumToRender={10}
-        windowSize={10}
-        getItemLayout={(data, index) => ({
-          length: viewMode === "compact" ? 120 : 200,
-          offset: (viewMode === "compact" ? 120 : 200) * index,
-          index,
-        })}
       />
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {},

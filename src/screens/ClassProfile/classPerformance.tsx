@@ -26,7 +26,7 @@ type NavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 export default function ClassPerformance() {
   const navigation = useNavigation<NavigationProp>();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { classProfile, loading, error, fetchClassProfile } = useClassStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [competenceFilter, setCompetenceFilter] =
@@ -35,7 +35,6 @@ export default function ClassPerformance() {
   useEffect(() => {
     fetchClassProfile();
   }, [fetchClassProfile]);
-
 
   const filteredStrands = useMemo(() => {
     if (!classProfile) return [];
@@ -79,7 +78,7 @@ export default function ClassPerformance() {
           ]}
           onPress={fetchClassProfile}
         >
-          <Text style={styles.retryButtonText}>Retry</Text>
+          <Text style={styles.retryButtonText}>{strings.home.retryButton}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -90,7 +89,7 @@ export default function ClassPerformance() {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       <View style={{ backgroundColor: baseColors.info }}>
-        <StatusBar style="auto" />
+        <StatusBar style={isDark ? "light" : "auto"} />
       </View>
       {/* Header */}
       <View style={styles.header}>
@@ -109,11 +108,12 @@ export default function ClassPerformance() {
         <Ionicons name="search" size={20} color={theme.colors.textSecondary} />
         <TextInput
           style={[styles.searchInput, { color: theme.colors.text }]}
-          placeholder="Search students or strands..."
+          placeholder={strings.home.searchPlaceholder}
           placeholderTextColor={theme.colors.textSecondary}
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
+
         {searchQuery.length > 0 && (
           <TouchableOpacity onPress={() => setSearchQuery("")}>
             <Ionicons
@@ -127,7 +127,10 @@ export default function ClassPerformance() {
 
       {/* Strands List */}
       <ScrollView showsVerticalScrollIndicator={false}>
-        <MasteryKeyReference />
+        <MasteryKeyReference
+          selected={competenceFilter}
+          onSelect={(level) => setCompetenceFilter(level)}
+        />
         <ScalableStrandList
           filteredStrands={filteredStrands}
           navigation={navigation}

@@ -9,6 +9,8 @@ import {
   ScrollView,
   Image,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import strings from "@/src/constant/strings";
@@ -83,7 +85,11 @@ export default function SignIn() {
             </View>
 
             {/* Input Section with Glass Effect */}
-            <View style={styles.form}>
+            <KeyboardAvoidingView
+              style={styles.form}
+              behavior={Platform.OS === "ios" ? "padding" : "padding"}
+              keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+            >
               <View style={styles.glassCard}>
                 <Text
                   style={[
@@ -135,7 +141,7 @@ export default function SignIn() {
                   <Text style={styles.link}>Forgot Password</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </KeyboardAvoidingView>
 
             {/* Footer */}
             <View style={styles.footer}>

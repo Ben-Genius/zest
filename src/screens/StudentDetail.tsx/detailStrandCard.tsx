@@ -268,11 +268,11 @@ const ModernStrandCards: React.FC = () => {
                   { backgroundColor: competenceColor + "15" },
                 ]}
               >
-                <Ionicons
-                  name={strand.icon}
-                  size={24}
-                  color={competenceColor}
-                />
+                <Text
+                  style={[styles.competenceText, { color: competenceColor }]}
+                >
+                  {perf.competence}
+                </Text>
               </View>
               <View style={styles.headerText}>
                 <Text style={[styles.cardTitle, { color: theme.colors.text }]}>
@@ -281,15 +281,14 @@ const ModernStrandCards: React.FC = () => {
                 <View style={styles.competenceContainer}>
                   <View
                     style={[
-                      styles.competenceDot,
                       { backgroundColor: competenceColor },
                     ]}
                   />
-                  <Text
-                    style={[styles.competenceText, { color: competenceColor }]}
-                  >
-                    {perf.competence}
-                  </Text>
+                  <Ionicons
+                    name={strand.icon}
+                    size={24}
+                    color={competenceColor}
+                  />
                 </View>
               </View>
             </View>
@@ -520,6 +519,9 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   headerText: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent:'space-between',
     flex: 1,
   },
   cardTitle: {
@@ -539,7 +541,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   competenceText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "600",
   },
   progressRingContainer: {

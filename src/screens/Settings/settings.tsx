@@ -12,6 +12,7 @@ import {
 import { useTheme } from "../../theme/ThemeProvider";
 import { AuthContext } from "@/src/navigators";
 import { Ionicons } from "@expo/vector-icons";
+import strings from "@/src/constant/strings";
 
 export default function Settings() {
   const { theme, toggleTheme, isDark } = useTheme();
@@ -28,19 +29,19 @@ export default function Settings() {
   }, [fadeAnim]);
 
   const handleLogout = () => {
-    Alert.alert("Confirm Logout", "Are you sure you want to log out?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Logout",
-        style: "destructive",
-        onPress: () => {
-          logout();
-        },
-      },
-    ]);
+ Alert.alert(
+   strings.settings.logout.confirmTitle,
+   strings.settings.logout.confirmMessage,
+   [
+     { text: "Cancel", style: "cancel" },
+     {
+       text: strings.settings.logout.button,
+       style: "destructive",
+       onPress: logout,
+     },
+   ]
+ );
+
   };
 
   const handleThemeToggle = () => {
@@ -61,31 +62,31 @@ export default function Settings() {
 
   const settingsSections = [
     {
-      title: "Account",
+      title: strings.settings.account,
       items: [
         {
           icon: "person-outline",
-          title: "Profile Information",
-          subtitle: "Update your personal details",
+          title: strings.settings.profileInfo.title,
+          subtitle: strings.settings.profileInfo.subtitle,
           onPress: () => console.log("Profile pressed"),
           showArrow: true,
         },
         {
           icon: "shield-checkmark-outline",
-          title: "Privacy Settings",
-          subtitle: "Manage your data and privacy",
+          title: strings.settings.privacy.title,
+          subtitle: strings.settings.privacy.subtitle,
           onPress: () => console.log("Privacy pressed"),
           showArrow: true,
         },
       ],
     },
     {
-      title: "Preferences",
+      title: strings.settings.preferences,
       items: [
         {
           icon: "moon-outline",
-          title: "Dark Mode",
-          subtitle: "Switch between light and dark themes",
+          title: strings.settings.darkMode.title,
+          subtitle: strings.settings.darkMode.subtitle,
           component: (
             <Switch
               value={isDark}
@@ -100,8 +101,8 @@ export default function Settings() {
         },
         {
           icon: "download-outline",
-          title: "Auto Download Reports",
-          subtitle: "Automatically save performance reports",
+          title: strings.settings.autoDownload.title,
+          subtitle: strings.settings.autoDownload.subtitle,
           component: (
             <Switch
               value={autoDownload}
@@ -177,131 +178,142 @@ export default function Settings() {
   }
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
-      showsVerticalScrollIndicator={false}
-    >
-      <Animated.View style={{ opacity: fadeAnim }}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
-            Settings
-          </Text>
-          <Text
+    <>
+      {/* Header */}
+      <View
+        style={[styles.header, { backgroundColor: theme.colors.background }]}
+      >
+        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
+          {strings.settings.headerTitle}
+        </Text>
+        <Text
+          style={[styles.headerSubtitle, { color: theme.colors.textSecondary }]}
+        >
+          {strings.settings.headerSubtitle}
+        </Text>
+      </View>
+      <ScrollView
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+        showsVerticalScrollIndicator={false}
+      >
+        <Animated.View style={{ opacity: fadeAnim }}>
+          {/* Profile Card */}
+          <View
             style={[
-              styles.headerSubtitle,
-              { color: theme.colors.textSecondary },
+              styles.profileCard,
+              { backgroundColor: theme.colors.surface },
             ]}
           >
-            Manage your account and app preferences
-          </Text>
-        </View>
-
-        {/* Profile Card */}
-        <View
-          style={[
-            styles.profileCard,
-            { backgroundColor: theme.colors.surface },
-          ]}
-        >
-          <View style={styles.profileInfo}>
-            <View
-              style={[styles.avatar, { backgroundColor: theme.colors.primary }]}
-            >
-              <Text style={styles.avatarText}>AG</Text>
-            </View>
-            <View style={styles.profileDetails}>
-              <Text style={[styles.profileName, { color: theme.colors.text }]}>
-                Azay Genius
-              </Text>
-              <Text
+            <View style={styles.profileInfo}>
+              <View
                 style={[
-                  styles.profileEmail,
-                  { color: theme.colors.textSecondary },
+                  styles.avatar,
+                  { backgroundColor: theme.colors.primary },
                 ]}
               >
-                geniusben24@gmail.com
-              </Text>
-              <View style={styles.profileMeta}>
-                <View
+                <Text style={styles.avatarText}>AG</Text>
+              </View>
+              <View style={styles.profileDetails}>
+                <Text
+                  style={[styles.profileName, { color: theme.colors.text }]}
+                >
+                  {strings.settings.profileName}
+                </Text>
+                <Text
                   style={[
-                    styles.statusBadge,
-                    { backgroundColor: theme.colors.masteryME + "20" },
+                    styles.profileEmail,
+                    { color: theme.colors.textSecondary },
                   ]}
                 >
+                  {strings.settings.profileEmail}
+                </Text>
+                <View style={styles.profileMeta}>
                   <View
                     style={[
-                      styles.statusDot,
-                      { backgroundColor: theme.colors.masteryME },
-                    ]}
-                  />
-                  <Text
-                    style={[
-                      styles.statusText,
-                      { color: theme.colors.masteryME },
+                      styles.statusBadge,
+                      { backgroundColor: theme.colors.masteryME + "20" },
                     ]}
                   >
-                    Active
-                  </Text>
+                    <View
+                      style={[
+                        styles.statusDot,
+                        { backgroundColor: theme.colors.masteryME },
+                      ]}
+                    />
+                    <Text
+                      style={[
+                        styles.statusText,
+                        { color: theme.colors.masteryME },
+                      ]}
+                    >
+                      {strings.settings.profileStatus}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
           </View>
-        </View>
 
-        {/* Settings Sections */}
-        {settingsSections.map((section, sectionIndex) => (
-          <View key={sectionIndex} style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
-              {section.title}
-            </Text>
-            <View style={styles.sectionContent}>
-              {section.items.map((item, itemIndex) =>
-                renderSettingItem(item, itemIndex)
-              )}
+          {/* Settings Sections */}
+          {settingsSections.map((section, sectionIndex) => (
+            <View key={sectionIndex} style={styles.section}>
+              <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
+                {section.title}
+              </Text>
+              <View style={styles.sectionContent}>
+                {section.items.map((item, itemIndex) =>
+                  renderSettingItem(item, itemIndex)
+                )}
+              </View>
             </View>
+          ))}
+
+          {/* App Info */}
+          <View style={styles.appInfo}>
+            <Text
+              style={[
+                styles.appInfoText,
+                { color: theme.colors.textSecondary },
+              ]}
+            >
+              {strings.settings.appInfo.version}
+            </Text>
+            <Text
+              style={[
+                styles.appInfoText,
+                { color: theme.colors.textSecondary },
+              ]}
+            >
+              {strings.settings.appInfo.tagline}s{" "}
+            </Text>
           </View>
-        ))}
 
-        {/* App Info */}
-        <View style={styles.appInfo}>
-          <Text
-            style={[styles.appInfoText, { color: theme.colors.textSecondary }]}
+          {/* Logout Button */}
+          <TouchableOpacity
+            style={[
+              styles.logoutButton,
+              {
+                borderColor: theme.colors.error,
+                backgroundColor: theme.colors.error + "10",
+              },
+            ]}
+            onPress={handleLogout}
           >
-            Student Performance Tracker v1.0.0
-          </Text>
-          <Text
-            style={[styles.appInfoText, { color: theme.colors.textSecondary }]}
-          >
-            Built with ❤️ for educators
-          </Text>
-        </View>
+            <Ionicons
+              name="log-out-outline"
+              size={20}
+              color={theme.colors.error}
+            />
+            <Text style={[styles.logoutText, { color: theme.colors.error }]}>
+              {strings.settings.logout.button}
+            </Text>
+          </TouchableOpacity>
 
-        {/* Logout Button */}
-        <TouchableOpacity
-          style={[
-            styles.logoutButton,
-            {
-              borderColor: theme.colors.error,
-              backgroundColor: theme.colors.error + "10",
-            },
-          ]}
-          onPress={handleLogout}
-        >
-          <Ionicons
-            name="log-out-outline"
-            size={20}
-            color={theme.colors.error}
-          />
-          <Text style={[styles.logoutText, { color: theme.colors.error }]}>
-            Log Out
-          </Text>
-        </TouchableOpacity>
-
-        {/* Bottom Spacing */}
-        <View style={styles.bottomSpacing} />
-      </Animated.View>
-    </ScrollView>
+          {/* Bottom Spacing */}
+          <View style={styles.bottomSpacing} />
+        </Animated.View>
+      </ScrollView>
+    </>
   );
 }
 

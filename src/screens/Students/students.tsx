@@ -24,17 +24,17 @@ type NavigationProp = StackNavigationProp<RootStackParamList>;
 
 const MASTERY_LEVELS = [
   { code: "BE", label: "Below Expectation", color: baseColors.masteryBE },
-  { code: "AE", label: "Approaching", color: baseColors.masteryAE},
+  { code: "AE", label: "Approaching", color: baseColors.masteryAE },
   { code: "ME", label: "Meeting", color: baseColors.masteryME },
-  { code: "EE", label: "Exceeding", color:baseColors.masteryEE },
+  { code: "EE", label: "Exceeding", color: baseColors.masteryEE },
   { code: "all", label: "All Students", color: "#8E8E93" },
 ] as const;
 
-type FilterType = CompetenceLevel
+type FilterType = CompetenceLevel;
 
 export default function Students() {
   const navigation = useNavigation<NavigationProp>();
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { classProfile } = useClassStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<FilterType>("all");
@@ -252,7 +252,7 @@ export default function Students() {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <StatusBar style="auto" />
+      <StatusBar style={isDark ? "light" : "auto"} />
 
       <FlatList
         data={filteredStudents}
@@ -303,7 +303,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 12,
     marginBottom: 16,
-  
   },
   searchInput: {
     flex: 1,
@@ -334,7 +333,6 @@ const styles = StyleSheet.create({
     padding: 16,
     marginHorizontal: 20,
     borderRadius: 12,
-   
   },
   avatar: {
     width: 40,

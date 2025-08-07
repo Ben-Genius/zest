@@ -8,31 +8,34 @@ import { Platform } from "react-native";
 import { baseColors } from "../theme/colors";
 import Students from "../screens/Students/students";
 import { HomeTabParamList } from ".";
-
-
+import strings from "../constant/strings"; // ✅ Import strings
+import { useTheme } from "../theme/ThemeProvider";
 
 const MainTabs = createBottomTabNavigator<HomeTabParamList>();
 
 const HomeTabsNavigator: React.FC = () => {
+  const {theme,isDark} = useTheme()
   return (
     <MainTabs.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: baseColors.primary, // iOS blue for active tab
+        tabBarActiveTintColor: baseColors.primary,
         tabBarInactiveTintColor: baseColors.gray500,
         tabBarStyle: {
-          height: Platform.OS === "ios" ? 50 : 80, // Adjust for iOS safe area
+          height: Platform.OS === "ios" ? 50 : 80,
+          backgroundColor:isDark ?  theme.colors.surface : theme.colors.background
         },
         tabBarLabelStyle: {
-          ...typography.caption
+          ...typography.caption,
         },
+       
       }}
     >
       <MainTabs.Screen
         name="Home"
         component={ClassPerformance}
         options={{
-          tabBarLabel: "Class",
+          tabBarLabel: strings.navigation.tabs.class, // ✅ Use string
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "school" : "school-outline"}
@@ -46,8 +49,8 @@ const HomeTabsNavigator: React.FC = () => {
         name="Students"
         component={Students}
         options={{
-          tabBarLabel: "Students",
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarLabel: strings.navigation.tabs.students, // ✅ Use string
+          tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "people" : "people-outline"}
               size={20}
@@ -60,8 +63,8 @@ const HomeTabsNavigator: React.FC = () => {
         name="Settings"
         component={Settings}
         options={{
-          tabBarLabel: "Settings",
-          tabBarIcon: ({ focused, color, size }) => (
+          tabBarLabel: strings.navigation.tabs.settings, // ✅ Use string
+          tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "settings" : "settings-outline"}
               size={20}
