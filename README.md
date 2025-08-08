@@ -5,6 +5,7 @@ A comprehensive cross-platform mobile application for tracking early-grade stude
 
 ![ZEST App Preview](/assets/images/logo.png)
 
+
 ---
 
 ## 🚀 Features
@@ -121,6 +122,7 @@ console.log("API BASE URL:", getBaseURL());
 - **Issue**: API requests fail on physical devices
 - **Solution**: Use actual IP address instead of localhost
 - **Verification**: Test API endpoint in browser: `http://YOUR_IP:3000/class_profile`
+- ** Run  json-server --watch db.json --port 3000 --host 0.0.0.0 with host to enable testing on physical devices
 
 ---
 
