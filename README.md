@@ -201,8 +201,8 @@ These are served via JSON Server:
 
 ## 📘 Figma Design
 
-👉 [Figma Design Link](https://www.figma.com/file/xyz123/Zest-Design)  
-(*Replace with your actual Figma URL*)
+👉 [Figma Design Link](https://www.figma.com/design/OuuQNyMXUaPli2y1NL6O0q/Zest-Figma-Designs?node-id=0-1&m=dev&t=5UfjGOH8o7b6wRFk-1)  
+
 
 ---
 ## 🎯 Future Enhancements
